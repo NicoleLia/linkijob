@@ -25,7 +25,7 @@ function App() {
 
 	const handleScrape = async () => {
 		if (!keywords || !location) {
-			alert('请输入关键词和地点');
+			alert('please enter keywords and location');
 			return;
 		}
 
@@ -38,7 +38,7 @@ function App() {
 			const result = await scrapeJobs(keywordList, location);
 			setJobs(result.jobs);
 		} catch (error) {
-			alert('抓取失败: ' + error.message);
+			alert('get error: ' + error.message);
 		} finally {
 			setLoading(false);
 		}
@@ -57,28 +57,30 @@ function App() {
 	};
 
 	return (
-		<Container sx={{ mt: 4 }}>
-			<Typography variant='h4' gutterBottom>
-				LinkedIn 职位抓取工具
+		<Container sx={{ mt: 0 }}>
+			<Typography variant='h4' gutterBottom color='primary'>
+				LinkedIn Daily Job Scraper
 			</Typography>
 			<Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
 				<TextField
-					label='关键词 (用英文逗号分隔)'
+					label='keywords (comma separated)'
+					helperText='for example: "software engineer, data analyst"'
 					value={keywords}
 					onChange={(e) => setKeywords(e.target.value)}
 					fullWidth
 				/>
 				<TextField
-					label='地点'
+					label='Post Location'
+					helperText='for example: "New Zealand"'
 					value={location}
 					onChange={(e) => setLocation(e.target.value)}
 					fullWidth
 				/>
 				<Button variant='contained' onClick={handleScrape} disabled={loading}>
-					{loading ? <CircularProgress size={24} /> : '开始抓取'}
+					{loading ? <CircularProgress size={24} /> : 'begin scraping'}
 				</Button>
 				<Button variant='outlined' onClick={handleExport} disabled={jobs.length === 0}>
-					导出 CSV
+					export to CSV
 				</Button>
 			</Box>
 
@@ -87,11 +89,11 @@ function App() {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>职位</TableCell>
-								<TableCell>公司</TableCell>
-								<TableCell>地点</TableCell>
-								<TableCell>发布时间</TableCell>
-								<TableCell>链接</TableCell>
+								<TableCell>position</TableCell>
+								<TableCell>company</TableCell>
+								<TableCell>location</TableCell>
+								<TableCell>release time</TableCell>
+								<TableCell>link</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -103,7 +105,7 @@ function App() {
 									<TableCell>{job.posted}</TableCell>
 									<TableCell>
 										<a href={job.link} target='_blank' rel='noopener noreferrer'>
-											查看
+											check
 										</a>
 									</TableCell>
 								</TableRow>
